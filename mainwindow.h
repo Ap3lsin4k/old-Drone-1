@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <QDebug>
 namespace Ui {
 class MainWindow;
 }
@@ -17,6 +17,12 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    double pointXEnd,pointXStart,pointYEnd,pointYStart,differntX,differentY;
+
+public slots:
+   void handleDate();
+
 };
 
 #endif // MAINWINDOW_H
