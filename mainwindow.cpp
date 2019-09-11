@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QString>
 #include <cmath>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -23,8 +24,14 @@ void MainWindow::handleDate()
     pointYEnd=ui->pointYEnd->text().toDouble();
     pointXStart=ui->pointXStart->text().toDouble();
     pointYStart=ui->poinYStart->text().toDouble();
+    length=ui->Length->text().toDouble();
+    width=ui->Width->text().toDouble();
     differntX=pointXEnd-pointXStart;
     differentY=pointYEnd-pointYStart;
-     qDebug()<<differntX<<" "<<differentY;
-    qDebug()<<differntX*111.32*1000<<" "<<cos(differntX*3.14/180)*40075/360*1000*differentY;
+    latitude=differntX*111.32*1000;
+    longtitude=cos(differntX*3.14/180)*40075/360*1000*differentY;
+    double countSquareW = ceil(latitude/width);
+    double countSquareL = ceil(longtitude/length);
+    int countSquare=countSquareL*countSquareW;
+    qDebug()<<countSquare;
 }

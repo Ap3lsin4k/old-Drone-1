@@ -18,8 +18,10 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    double pointXEnd,pointXStart,pointYEnd,pointYStart,differntX,differentY;
+    double pointXEnd=0,pointXStart=0,pointYEnd=0,pointYStart=0,differntX=0,differentY=0;
+    double longtitude,latitude;//довгота //широта
 
+    double length=0,width=0;
 public slots:
    void handleDate();
 
