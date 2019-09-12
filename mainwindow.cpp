@@ -30,8 +30,31 @@ void MainWindow::handleDate()
     differentY=pointYEnd-pointYStart;
     latitude=differntX*111.32*1000;
     longtitude=cos(differntX*3.14/180)*40075/360*1000*differentY;
-    double countSquareW = ceil(latitude/width);
-    double countSquareL = ceil(longtitude/length);
-    int countSquare=countSquareL*countSquareW;
+    qDebug()<<"Latitude, longtitude: "<<latitude<<" "<<longtitude;
+    double countSquareWMain, countSquareLMain;
+    double countSquareWDouble = latitude/width, countSquareLDouble = longtitude/length;
+    double countSquareWTrunc = trunc(countSquareWDouble), countSquareLTrunc = trunc(countSquareLDouble);
+    double difference = countSquareWDouble - countSquareWTrunc;
+    if (difference>0)
+    {
+        countSquareWMain = countSquareWTrunc+1;
+    }
+    else {
+        countSquareWMain = countSquareWTrunc;
+    }
+    difference = countSquareLDouble - countSquareLTrunc;
+    if (difference>0)
+    {
+        countSquareLMain = countSquareLTrunc+1;
+    }
+    else {
+        countSquareLMain = countSquareLTrunc;
+    }
+
+    qDebug()<<latitude/width<<" "<<longtitude/length;
+
+    qDebug()<<"countW double: "<<countSquareWDouble<<"countL"<<countSquareLDouble;
+    qDebug()<<"countW main: "<<countSquareWMain<<"countL"<<countSquareLMain;
+    double  countSquare=countSquareLMain*countSquareWMain;
     qDebug()<<countSquare;
 }
