@@ -111,7 +111,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="pointXStart"/>
+        <widget class="QLineEdit" name="pointYStart"/>
        </item>
       </layout>
      </item>
@@ -125,7 +125,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="poinYStart"/>
+        <widget class="QLineEdit" name="pointXStart"/>
        </item>
       </layout>
      </item>
@@ -146,7 +146,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="pointXEnd"/>
+        <widget class="QLineEdit" name="pointYEnd_2"/>
        </item>
       </layout>
      </item>
@@ -160,7 +160,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="pointYEnd"/>
+        <widget class="QLineEdit" name="pointXEnd"/>
        </item>
       </layout>
      </item>

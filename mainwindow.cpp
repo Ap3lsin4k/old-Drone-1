@@ -20,19 +20,20 @@ MainWindow::~MainWindow()
 
 void MainWindow::handleDate()
 {
-    pointXEnd=ui->pointXEnd->text().toDouble();
-    pointYEnd=ui->pointYEnd->text().toDouble();
+    pointXEnd=ui->pointXEnd->text().toDouble();//Довгота
+    pointYEnd=ui->pointYEnd_2->text().toDouble();//Широта
+
     pointXStart=ui->pointXStart->text().toDouble();
-    pointYStart=ui->poinYStart->text().toDouble();
+    pointYStart=ui->pointYStart->text().toDouble();
     length=ui->Length->text().toDouble();
     width=ui->Width->text().toDouble();
-    differntX=pointXEnd-pointXStart;
-    differentY=pointYEnd-pointYStart;
-    latitude=differntX*111.32*1000;
-    longtitude=cos(differntX*3.14/180)*40075/360*1000*differentY;
+    differentX=pointXEnd-pointXStart;//Довгота
+    differentY=pointYEnd-pointYStart;//Широта
+    latitude=differentY*111.32*1000;
+    longtitude=cos(differentY*3.14/180)*40075/360*1000*differentX;
     qDebug()<<"Latitude, longtitude: "<<latitude<<" "<<longtitude;
     double countSquareWMain, countSquareLMain;
-    double countSquareWDouble = latitude/width, countSquareLDouble = longtitude/length;
+    double countSquareWDouble = abs(latitude/width), countSquareLDouble = abs(longtitude/length);
     double countSquareWTrunc = trunc(countSquareWDouble), countSquareLTrunc = trunc(countSquareLDouble);
     double difference = countSquareWDouble - countSquareWTrunc;
     if (difference>0)
