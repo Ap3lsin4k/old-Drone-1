@@ -63,6 +63,7 @@ void MainWindow::handleDate()
     for(int i=0;i<countSquareLMain;++i)
     {
         a.first+=(length)/(cos(differentY*3.14/360)*(40075/360)*1000);
+        a.second=pointY1;
         for (int j=0;j<countSquareWMain;++j)
         {
             a.second-=abs((width)/(111.32*1000));
