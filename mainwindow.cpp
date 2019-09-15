@@ -54,20 +54,20 @@ void MainWindow::handleDate()
     }
 
     qDebug()<<latitude/width<<" "<<longtitude/length;
-    double pointX1=pointXStart+((length/2)/(cos(differentY*3.14/360)*(40075/360)*1000));
+    double pointX1=pointXStart+((length/2)/(cos(differentY*3.14/180)*(40075/360)*1000));
     double pointY1=pointYStart-abs((width/2)/(111.32*1000));
     std::pair<double ,double > a;
     a.first=pointX1;
     a.second=pointY1;
-    qDebug()<<"1:"<<QString::number(pointX1,'f',6)<<" "<<QString::number(pointY1,'f',6);
+    qDebug()<<"1:"<<QString::number(pointY1,'f',6)+","+QString::number(pointX1,'f',6);
     for(int i=0;i<countSquareLMain;++i)
     {
-        a.first+=(length)/(cos(differentY*3.14/360)*(40075/360)*1000);
+        a.first+=(length)/(cos(differentY*3.14/180)*(40075/360)*1000);
         a.second=pointY1;
         for (int j=0;j<countSquareWMain;++j)
         {
             a.second-=abs((width)/(111.32*1000));
-            qDebug()<<QString::number(a.first,'f',6)<<" "<<QString::number(a.second,'f',6);
+            qDebug()<<QString::number(a.second,'f',6)+","+QString::number(a.first,'f',6);
         }
     }
 
