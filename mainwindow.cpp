@@ -28,11 +28,11 @@ void MainWindow::handleDate()
     pointYStart=ui->pointYStart->text().toDouble();
     length=ui->Length->text().toDouble();
     width=ui->Width->text().toDouble();
-    differentX=pointXEnd-pointXStart;//Довгота
-    differentY=pointYEnd-pointYStart;//Широта
-    latitude=differentY*111.32*1000;//Широта
-    longtitude=cos(differentY*3.14/180)*40075/360*1000*differentX;//Довгота
-    qDebug()<<"Latitude, longtitude: "<<latitude<<" "<<longtitude;
+    differentX=pointXEnd-pointXStart;//Довгота в градусах
+    differentY=pointYEnd-pointYStart;//Широта в градусах
+    latitude=differentY*111.32*1000;//Широта в метрах
+    longtitude=cos(differentY*3.14/180)*40075/360*1000*differentX;//Довгота в метрах
+    qDebug()<<"Latitude v metrax, longtitude: "<<latitude<<" "<<longtitude;
     double countSquareWMain, countSquareLMain;
     double countSquareWDouble = abs(latitude/width), countSquareLDouble = abs(longtitude/length);
     double countSquareWTrunc = trunc(countSquareWDouble), countSquareLTrunc = trunc(countSquareLDouble);
