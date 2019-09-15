@@ -72,6 +72,7 @@ void MainWindow::handleDate()
         a.second=pointY1;
         for (int j=0;j<countSquareWMain;++j)
         {
+            if(j!=0)
             a.second-=abs((width)/(111.32*1000));
             qDebug()<<QString::number(a.second,'f',6)+","+QString::number(a.first,'f',6);
         }
