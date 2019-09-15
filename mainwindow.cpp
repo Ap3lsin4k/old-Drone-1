@@ -62,7 +62,10 @@ void MainWindow::handleDate()
     qDebug()<<"1:"<<QString::number(pointX1,'f',6)<<" "<<QString::number(pointY1,'f',6);
     for(int i=0;i<countSquareLMain;++i)
     {
-        a.first+=(length)/(cos(differentY*3.14/360)*(40075/360)*1000);
+        if(i!=0)
+        {
+          a.first+=(length)/(cos(differentY*3.14/180)*(40075/360)*1000);
+        }
         a.second=pointY1;
         for (int j=0;j<countSquareWMain;++j)
         {
