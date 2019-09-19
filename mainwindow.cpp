@@ -74,6 +74,7 @@ void MainWindow::handleDate()
         }
     }
 
+
     qDebug()<<"countW double: "<<countSquareWDouble<<"countL"<<countSquareLDouble;
     qDebug()<<"countW main: "<<countSquareWMain<<"countL"<<countSquareLMain;
     double  countSquare=countSquareLMain*countSquareWMain;
