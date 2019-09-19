@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>705</width>
+    <width>1206</width>
     <height>558</height>
    </rect>
   </property>
@@ -20,7 +20,7 @@
       <x>30</x>
       <y>10</y>
       <width>443</width>
-      <height>405</height>
+      <height>445</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -91,99 +91,8 @@
        </property>
       </widget>
      </item>
-     <item row="8" column="0">
-      <widget class="QLabel" name="label_10">
-       <property name="text">
-        <string>Початкові координати поля</string>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="0">
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>Широта</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="pointYStart"/>
-       </item>
-      </layout>
-     </item>
-     <item row="9" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Довгота</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="pointXStart"/>
-       </item>
-      </layout>
-     </item>
-     <item row="10" column="0">
-      <widget class="QLabel" name="label_15">
-       <property name="text">
-        <string>Кінцеві координати поля</string>
-       </property>
-      </widget>
-     </item>
-     <item row="11" column="0">
-      <layout class="QHBoxLayout" name="horizontalLayout_5">
-       <item>
-        <widget class="QLabel" name="label_13">
-         <property name="text">
-          <string>Широта</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="pointYEnd_2"/>
-       </item>
-      </layout>
-     </item>
-     <item row="11" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_6">
-       <item>
-        <widget class="QLabel" name="label_14">
-         <property name="text">
-          <string>Довгота</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="pointXEnd"/>
-       </item>
-      </layout>
-     </item>
-     <item row="12" column="1">
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>Обчислити та вивести результат</string>
-       </property>
-      </widget>
-     </item>
      <item row="6" column="1">
       <widget class="QLineEdit" name="lineEdit"/>
-     </item>
-     <item row="7" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <item>
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>Довжина</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="Length"/>
-       </item>
-      </layout>
      </item>
      <item row="7" column="0">
       <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -195,7 +104,165 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="Width"/>
+        <widget class="QLineEdit" name="Width">
+         <property name="text">
+          <string>50</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="7" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Довжина</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="Length">
+         <property name="text">
+          <string>20</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="label_20">
+       <property name="text">
+        <string>Початкові координати поля</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0">
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>Початкові координати поля</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Широта</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="pointYStart">
+         <property name="text">
+          <string>50.184170</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="11" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Довгота</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="pointXStart">
+         <property name="text">
+          <string> 27.058116 </string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="12" column="0">
+      <widget class="QLabel" name="label_15">
+       <property name="text">
+        <string>Кінцеві координати поля</string>
+       </property>
+      </widget>
+     </item>
+     <item row="13" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>Широта</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="pointYEnd_2">
+         <property name="text">
+          <string>50.183105 </string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="13" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>Довгота</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="pointXEnd">
+         <property name="text">
+          <string>27.058461</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="14" column="1">
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Обчислити та вивести результат</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_12">
+       <item>
+        <widget class="QLabel" name="label_22">
+         <property name="text">
+          <string>Широта</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="pointYBase">
+         <property name="text">
+          <string>50.184402</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="9" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <item>
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>Довгота</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="pointXBase">
+         <property name="text">
+          <string>27.058021</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -207,7 +274,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>705</width>
+     <width>1206</width>
      <height>22</height>
     </rect>
    </property>
