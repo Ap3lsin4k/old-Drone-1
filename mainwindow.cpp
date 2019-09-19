@@ -33,7 +33,7 @@ void MainWindow::handleDate()
     latitude=differentY*111.32*1000;//Широта в метрах
     longtitude=cos(differentY*3.14/180)*40075/360*1000*differentX;//Довгота в метрах
     qDebug()<<"Latitude v metrax, longtitude: "<<latitude<<" "<<longtitude;
-    double countSquareWMain, countSquareLMain;
+    unsigned int countSquareWMain, countSquareLMain;
     double countSquareWDouble = abs(latitude/width), countSquareLDouble = abs(longtitude/length);
     double countSquareWTrunc = trunc(countSquareWDouble), countSquareLTrunc = trunc(countSquareLDouble);
     double difference = countSquareWDouble - countSquareWTrunc;
@@ -54,23 +54,31 @@ void MainWindow::handleDate()
     }
 
     qDebug()<<latitude/width<<" "<<longtitude/length;
-    double pointX1=pointXStart+((length/2)/(cos(differentY*3.14/360)*(40075/360)*1000));
+    double pointX1=pointXStart+((length/2)/(cos(differentY*3.14/180)*(40075/360)*1000));
     double pointY1=pointYStart-abs((width/2)/(111.32*1000));
-    std::pair<double ,double > a;
-    a.first=pointX1;
-    a.second=pointY1;
-    qDebug()<<"1:"<<QString::number(pointX1,'f',6)<<" "<<QString::number(pointY1,'f',6);
-    for(int i=0;i<countSquareLMain;++i)
+
+    std::pair<double,double> *defpair=new std::pair<double,double> () ;
+            defpair->first=pointX1;
+            defpair->second=pointY1;
+    std::vector<std::pair<double, double>> def(countSquareWMain,*defpair) ;
+    std::vector<std::vector<std::pair<double, double>>> a(countSquareLMain,def);
+
+    qDebug()<<"1:"<<QString::number(pointY1,'f',6)+","+QString::number(pointX1,'f',6);
+    for(unsigned int i=0;i<countSquareLMain;++i)
     {
+
+
+
         if(i!=0)
         {
-          a.first+=(length)/(cos(differentY*3.14/180)*(40075/360)*1000);
+          a[i][0].first+=(length)/(cos(differentY*3.14/180)*(40075/360)*1000);
         }
-        a.second=pointY1;
-        for (int j=0;j<countSquareWMain;++j)
+        a[i][0].second=pointY1;
+        for (unsigned int j=0;j<countSquareWMain;++j)
         {
-            a.second-=abs((width)/(111.32*1000));
-            qDebug()<<QString::number(a.first,'f',6)<<" "<<QString::number(a.second,'f',6);
+            if(j!=0)
+            a[i][j].second-=abs((width)/(111.32*1000));
+            qDebug()<<QString::number(a[i][j].second,'f',6)+","+QString::number(a[i][j].first,'f',6);
         }
     }
 
