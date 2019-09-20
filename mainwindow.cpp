@@ -24,20 +24,40 @@ MainWindow::~MainWindow()
 
 void MainWindow::handleDate()
 {
-    pointXEnd=ui->pointXEnd->text().toDouble();//Довгота
-    pointYEnd=ui->pointYEnd_2->text().toDouble();//Широта
+    pointEnd.first=ui->pointXEnd->text().toDouble();//Довгота
+    pointEnd.second=ui->pointYEnd_2->text().toDouble();//Широта
 
-    pointXStart=ui->pointXStart->text().toDouble();
-    pointYStart=ui->pointYStart->text().toDouble();
+    pointStart.first=ui->pointXStart->text().toDouble();
+    pointStart.second=ui->pointYStart->text().toDouble();
 
-    pointXBase=ui->pointXBase->text().toDouble();
-    pointYBase=ui->pointYBase->text().toDouble();
+    pointBase.first=ui->pointXBase->text().toDouble();
+    pointBase.second=ui->pointYBase->text().toDouble();
 
     length=ui->Length->text().toDouble();
     width=ui->Width->text().toDouble();
+    if(pointStart.first<pointEnd.first && pointStart.second>pointEnd.second)
+    {
+        positionPoints=1;//Стартова позиція в лівому верхньому куті
+        differentX=pointEnd.first-pointStart.first;//Довгота в градусах
+        differentY=pointStart.second-pointEnd.second;//Широта в градусах
+    }else if (pointStart.first>pointEnd.first && pointStart.second>pointEnd.second)
+    {
+        positionPoints=2;//Стартова точка знаходится в правому верхньому куті
+        differentX=pointStart.first-pointEnd.first;//Довгота в градусах
+        differentY=pointStart.second-pointEnd.second;//Широта в градусах
+    }else if (pointStart.first>pointEnd.first && pointStart.second<pointEnd.second)
+    {
+        positionPoints=3;//Стартова точка знаходится в правому нижньому куті
+        differentX=pointStart.first-pointEnd.first;//Довгота в градусах
+        differentY=pointEnd.second-pointStart.second;//Широта в градусах
 
-    differentX=pointXEnd-pointXStart;//Довгота в градусах
-    differentY=pointYEnd-pointYStart;//Широта в градусах
+    }else if (pointStart.first<pointEnd.first && pointStart.second<pointEnd.second)
+    {
+        positionPoints=4;//Стартова точка знаходится в лівому нижньому куті
+        differentX=pointEnd.first-pointStart.first;//Довгота в градусах
+        differentY=pointEnd.second-pointStart.second;//Широта в градусах
+    }
+
 
     latitude=differentY*111.32*1000;//Широта в метрах
     longtitude=cos(differentY*3.14/180)*40075/360*1000*differentX;//Довгота в метрах
@@ -70,8 +90,8 @@ void MainWindow::handleDate()
 
     qDebug()<<latitude/width<<" "<<longtitude/length;
 
-    double pointX1=pointXStart+((length/2)/(cos(differentY*3.14/180)*(40075/360)*1000));  // Координата центра першого прямокутника
-    double pointY1=pointYStart-abs((width/2)/(111.32*1000));
+    double pointX1=pointStart.first+((length/2)/(cos(differentY*3.14/180)*(40075/360)*1000));  // Координата центра першого прямокутника
+    double pointY1=pointStart.second-abs((width/2)/(111.32*1000));
 
     pair<int,pair<double,double>> *defpair=new pair<int,pair<double,double>>();
     defpair->first=0;
@@ -110,22 +130,31 @@ void MainWindow::handleDate()
     order->coordinateOrder(a,0,0,countSquare);
 
     vector<pair<int,int>> way=order->getWay();
-    double differentXEnd=a[way[countSquare-1].first][way[countSquare-1].second].second.second-pointXBase;
-    double differentYEnd=a[way[countSquare-1].first][way[countSquare-1].second].second.first-pointYBase;
+    double differentXEnd=a[way[countSquare-1].first][way[countSquare-1].second].second.second-pointBase.first;
+    double differentYEnd=a[way[countSquare-1].first][way[countSquare-1].second].second.first-pointBase.second;
 
     double latitudeEnd=differentYEnd*111.32*1000;//Широта в метрах
     double longtitudeEnd=cos(differentYEnd*3.14/180)*40075/360*1000*differentXEnd;
     double distanceEnd=sqrt(pow(latitudeEnd,2)+pow(longtitudeEnd,2));
 
 
-    double differentXStart=a[way[0].first][way[0].second].second.second-pointXBase;
-    double differentYStart=a[way[0].first][way[0].second].second.first-pointYBase;
+    double differentXStart=a[way[0].first][way[0].second].second.second-pointBase.first;
+    double differentYStart=a[way[0].first][way[0].second].second.first-pointBase.second;
 
     double latitudeStart=differentYStart*111.32*1000;//Широта в метрах
     double longtitudeStart=cos(differentYStart*3.14/180)*40075/360*1000*differentXStart;
     double distanceStart=sqrt(pow(latitudeStart,2)+pow(longtitudeStart,2));
     double d=order->getLength()+distanceEnd+distanceStart;
+
+
+
     qDebug()<<QString::number(d,'f',6);
     qDebug()<<countSquare;
+
+}
+
+
+pair<int,int> MainWindow::choseStart(double startX, double startY, double endX, double endY, double baseX, double baseY)
+{
 
 }

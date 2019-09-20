@@ -13,6 +13,7 @@ public:
     double getLength();
     vector<pair<int,int>> getWay();
 private:
+
     vector<pair<int,int>> way;
     long L, W;
     pair<int,int> coordinatsWay;
