@@ -19,7 +19,7 @@ public:
 private:
     Ui::MainWindow *ui;
     CoordinateOrder *order;
-    pair<int,int> choseStart(double startX, double startY, double endX, double endY, double baseX, double baseY);
+    pair<int,int> choseStart(vector<vector<pair<int,pair<double, double>> > > &a,pair<double,double> &start, pair<double,double> &end, pair<double,double> &base,double &distanceStart);
     double differentX=0,differentY=0;
     pair<double,double> pointEnd, pointStart,pointBase;
     double countSquareWDouble,countSquareWTrunc,difference,countSquareLDouble,countSquareLTrunc;
