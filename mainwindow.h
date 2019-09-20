@@ -1,8 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QDebug>
+#include <QMainWindow>// Функції для окна и сам класс окно
+#include <QDebug>// замість cout
 namespace Ui {
 class MainWindow;
 }
