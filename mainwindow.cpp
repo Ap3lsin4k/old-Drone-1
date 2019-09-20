@@ -70,12 +70,12 @@ void MainWindow::handleDate()
 
     qDebug()<<latitude/width<<" "<<longtitude/length;
 
-    double pointX1=pointXStart+((length/2)/(cos(differentY*3.14/180)*(40075/360)*1000));
+    double pointX1=pointXStart+((length/2)/(cos(differentY*3.14/180)*(40075/360)*1000));  // Координата центра першого прямокутника
     double pointY1=pointYStart-abs((width/2)/(111.32*1000));
 
     pair<int,pair<double,double>> *defpair=new pair<int,pair<double,double>>();
     defpair->first=0;
-    vector<pair<int,pair<double, double>>> def(countSquareLMain,*defpair) ;
+    vector<pair<int,pair<double, double>>> def(countSquareLMain,*defpair) ;  // {ми там були, (Latitude1, Longtitude1)}, {чи ми там були, (Latitude2, Longtitude2)}
     vector<vector<pair<int, pair<double, double>>>> a(countSquareWMain,def);
     a[0][0].second.first=pointY1;
     a[0][0].second.second=pointX1;
@@ -105,7 +105,7 @@ void MainWindow::handleDate()
 
 
     int countSquare=countSquareLMain*countSquareWMain;
-    a[0][0].first=1;
+    a[0][0].first=1;  // ми були в початковій координаті
     order=new CoordinateOrder(countSquareLMain,countSquareWMain,length,width);
     order->coordinateOrder(a,0,0,countSquare);
 
