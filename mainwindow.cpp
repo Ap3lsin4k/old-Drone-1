@@ -24,6 +24,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::handleDate()
 {
+    height=ui->Height->text().toDouble();
+
     pointEnd.first=ui->pointXEnd->text().toDouble();//Довгота
     pointEnd.second=ui->pointYEnd_2->text().toDouble();//Широта
 
@@ -126,25 +128,19 @@ void MainWindow::handleDate()
 
     int countSquare=countSquareLMain*countSquareWMain;
     double distanceStart=0;
-    a[0][0].first=1;  // ми були в початковій координаті
+    pair<int,int> pos=choseStart(a,pointStart,pointEnd,pointBase,distanceStart);
+    a[pos.first][pos.second].first=1;  // ми були в початковій координаті
     order=new CoordinateOrder(countSquareLMain,countSquareWMain,length,width);
-    order->coordinateOrder(a,0,0,countSquare);
-
+    order->coordinateOrder(a,pos.first,pos.second,countSquare);
     vector<pair<int,int>> way=order->getWay();
     double differentXEnd=a[way[countSquare-1].first][way[countSquare-1].second].second.second-pointBase.first;
     double differentYEnd=a[way[countSquare-1].first][way[countSquare-1].second].second.first-pointBase.second;
 
     double latitudeEnd=differentYEnd*111.32*1000;//Широта в метрах
     double longtitudeEnd=cos(differentYEnd*3.14/180)*40075/360*1000*differentXEnd;
-    double distanceEnd=sqrt(pow(latitudeEnd,2)+pow(longtitudeEnd,2));
+    double distanceEnd=sqrt(pow(latitudeEnd,2)+pow(longtitudeEnd,2)+pow(height,2));//?????????????????
 
-
-    double differentXStart=a[way[0].first][way[0].second].second.second-pointBase.first;
-    double differentYStart=a[way[0].first][way[0].second].second.first-pointBase.second;
-
-    double latitudeStart=differentYStart*111.32*1000;//Широта в метрах
-    double longtitudeStart=cos(differentYStart*3.14/180)*40075/360*1000*differentXStart;
-    distanceStart=sqrt(pow(latitudeStart,2)+pow(longtitudeStart,2));
+    qDebug()<<order->getLength()<<" "<<distanceEnd<<" "<<distanceStart;
     double d=order->getLength()+distanceEnd+distanceStart;
 
 
@@ -166,213 +162,459 @@ pair<int,int> MainWindow::choseStart(vector<vector<pair<int,pair<double, double>
     switch(positionPoints)
     {
         case 1:
-        if(base.second > end.second && base.second < end.second && base.first < start.first)//1
-        {
-            for(int i=0;i<countSquareWMain;++i)
+            if(base.second > end.second && base.second < end.second && base.first < start.first)//1
             {
-               diffX=abs(base.first-a[i][0].second.first);
-               diffY=abs(base.second-a[i][0].second.second);
-               latitudeS=diffY*111.32*1000;
-               longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
-               distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2));
-               if (distanceStart<min)
-               {
-                   min = distanceStart;
-                   position.first=i;
-               }
-            }
-            position.second=0;
-        }else
-        if (base.second > start.second && base.first > start.first && base.first < end.first) //2
-        {
-            for(int i=0;i<countSquareLMain;++i)
+                for(int i=0;i<countSquareWMain;++i)
+                {
+                   diffX=abs(base.first-a[i][0].second.second);
+                   diffY=abs(base.second-a[i][0].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.first=i;
+                   }
+                }
+                position.second=0;
+                return position;
+            }else
+            if (base.second > start.second && base.first > start.first && base.first < end.first) //2
             {
-               diffX=abs(base.first-a[0][i].second.first);
-               diffY=abs(base.second-a[0][i].second.second);
-               latitudeS=diffY*111.32*1000;
-               longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
-               distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2));
-               if (distanceStart<min)
-               {
-                   min = distanceStart;
-                   position.second=i;
-               }
-               position.first=0;
-            }
-        }else
-        if (base.second > end.second && base.second <= start.second && base.first >= end.first) //3
-        {
-            for(int i=0;i<countSquareWMain;++i)
+                for(int i=0;i<countSquareLMain;++i)
+                {
+                   diffX=abs(base.first-a[0][i].second.second);
+                   diffY=abs(base.second-a[0][i].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.second=i;
+                   }
+                }
+                position.first=0;
+                return position;
+            }else
+            if (base.second > end.second && base.second <= start.second && base.first >= end.first) //3
             {
-               diffX=abs(base.first-a[i][countSquareLMain-1].second.first);
-               diffY=abs(base.second-a[i][countSquareLMain-1].second.second);
-               latitudeS=diffY*111.32*1000;
-               longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
-               distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2));
-               if (distanceStart<min)
-               {
-                   min = distanceStart;
-                   position.first=i;
-               }
-               position.second=countSquareLMain-1;
-            }
-        }else
-        if (base.second < start.second && base.first > start.first && base.first < end.first) //4
-        {
-            for(int i=0;i<countSquareLMain;++i)
+                for(int i=0;i<countSquareWMain;++i)
+                {
+                   diffX=abs(base.first-a[i][countSquareLMain-1].second.second);
+                   diffY=abs(base.second-a[i][countSquareLMain-1].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.first=i;
+                   }
+                }
+                position.second=countSquareLMain-1;
+                return position;
+            }else
+            if (base.second < start.second && base.first > start.first && base.first < end.first) //4
             {
-               diffX=abs(base.first-a[countSquareWMain-1][i].second.first);
-               diffY=abs(base.second-a[countSquareWMain-1][i].second.second);
-               latitudeS=diffY*111.32*1000;
-               longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
-               distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2));
-               if (distanceStart<min)
-               {
-                   min = distanceStart;
-                   position.second=i;
-               }
-               position.first=countSquareWMain-1;
+                for(int i=0;i<countSquareLMain;++i)
+                {
+                   diffX=abs(base.first-a[countSquareWMain-1][i].second.second);
+                   diffY=abs(base.second-a[countSquareWMain-1][i].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.second=i;
+                   }
+                }
+                position.first=countSquareWMain-1;
+                return position;
+            }else if (base.first<=start.first && base.second>=start.second) //5
+            {
+                position.first=0;
+                position.second=0;
+
+                diffX=abs(base.first-a[position.second][position.first].second.second);
+                diffY=abs(base.second-a[position.second][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
+            }else if (base.first>=end.first && base.second>=start.second)//6
+            {
+                position.first=0;
+                position.second=countSquareLMain-1;
+                diffX=abs(base.first-a[position.second][position.first].second.second);
+                diffY=abs(base.second-a[position.second][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
+            }else if (base.first>=end.first && base.second<=end.second) //7
+            {
+                position.first=countSquareWMain-1;
+                position.second=countSquareLMain-1;
+                diffX=abs(base.first-a[position.second][position.first].second.second);
+                diffY=abs(base.second-a[position.second][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
+            }else if (base.first<=start.first && base.second<=start.second)//8
+            {
+                position.first=countSquareWMain-1;
+                position.second=0;
+                diffX=abs(base.first-a[position.second][position.first].second.second);
+                diffY=abs(base.second-a[position.second][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
             }
-        }else if (base.first<=start.first && base.second>=start.second) //5
-        {
-            position.first=0;
-            position.second=0;
-            diffX=abs(base.first-a[position.first][position.second].second.first);
-            diffY=abs(base.second-a[position.first][position.second].second.second);
-            latitudeS=diffY*111.32*1000;
-            longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
-            distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2));
-            return position;
-        }else if (base.first>=end.first && base.second>=start.second)//6
-        {
-            position.first=0;
-            position.second=countSquareLMain-1;
-            return position;
-        }else if (base.first>=end.first && base.second<=end.second) //7
-        {
-            position.first=countSquareWMain-1;
-            position.second=countSquareLMain-1;
-            return position;
-        }else if (base.first<=start.first && base.second<=start.second)//8
-        {
-            position.first=countSquareWMain-1;
-            position.second=0;
-            return position;
-        }
         break;
         case 2:
-        if(base.first<end.first && base.second>end.second && base.second<start.second)//1
-        {
-
-        }else
-        if (base.second>start.second && base.first>end.first && base.first<start.first) //2
-        {
-
-        }else
-        if (base.first>end.first && base.second>end.second && base.second<start.second) //3
-        {
-
-        }else
-        if (base.second<start.second && base.first>end.first && base.first<start.first) //4
-        {
-
-        }else if (base.first<=end.first && base.second>=start.second) //5
-        {
-            position.first=0;
-            position.second=0;
-            return position;
-        }else if (base.first>=start.first && base.second>=start.second)//6
-        {
-            position.first=0;
-            position.second=countSquareLMain-1;
-            return position;
-        }else if (base.first>=start.first && base.second<=end.second) //7
-        {
-            position.first=countSquareWMain-1;
-            position.second=countSquareLMain-1;
-            return position;
-        }else if (base.first<=end.first && base.second<=end.second)//8
-        {
-            position.first=countSquareWMain-1;
-            position.second=0;
-            return position;
-        }
+            if(base.first<end.first && base.second>end.second && base.second<start.second)//1
+            {
+                for(int i=0;i<countSquareWMain;++i)
+                {
+                   diffX=abs(base.first-a[i][0].second.second);
+                   diffY=abs(base.second-a[i][0].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.first=i;
+                   }
+                }
+                position.second=0;
+                return position;
+            }else
+            if (base.second>start.second && base.first>end.first && base.first<start.first) //2
+            {
+                for(int i=0;i<countSquareLMain;++i)
+                {
+                   diffX=abs(base.first-a[0][i].second.second);
+                   diffY=abs(base.second-a[0][i].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.second=i;
+                   }
+                }
+                position.first=0;
+                return position;
+            }else
+            if (base.first>end.first && base.second>end.second && base.second<start.second) //3
+            {
+                for(int i=0;i<countSquareWMain;++i)
+                {
+                   diffX=abs(base.first-a[i][countSquareLMain-1].second.second);
+                   diffY=abs(base.second-a[i][countSquareLMain-1].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.first=i;
+                   }
+                }
+                position.second=countSquareLMain-1;
+                return position;
+            }else
+            if (base.second<start.second && base.first>end.first && base.first<start.first) //4
+            {
+                for(int i=0;i<countSquareLMain;++i)
+                {
+                   diffX=abs(base.first-a[countSquareWMain-1][i].second.second);
+                   diffY=abs(base.second-a[countSquareWMain-1][i].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.second=i;
+                   }
+                }
+                position.first=countSquareWMain-1;
+                return position;
+            }else if (base.first<=end.first && base.second>=start.second) //5
+            {
+                position.first=0;
+                position.second=0;
+                diffX=abs(base.first-a[position.first][position.second].second.second);
+                diffY=abs(base.second-a[position.first][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
+            }else if (base.first>=start.first && base.second>=start.second)//6
+            {
+                position.first=0;
+                position.second=countSquareLMain-1;
+                diffX=abs(base.first-a[position.second][position.first].second.second);
+                diffY=abs(base.second-a[position.second][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
+            }else if (base.first>=start.first && base.second<=end.second) //7
+            {
+                position.first=countSquareWMain-1;
+                position.second=countSquareLMain-1;
+                diffX=abs(base.first-a[position.second][position.first].second.second);
+                diffY=abs(base.second-a[position.second][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
+            }else if (base.first<=end.first && base.second<=end.second)//8
+            {
+                position.first=countSquareWMain-1;
+                position.second=0;
+                diffX=abs(base.first-a[position.second][position.first].second.second);
+                diffY=abs(base.second-a[position.second][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
+            }
         break;
         case 3:
-        if(base.second > start.second && base.second < start.second && base.first < end.first)//1
-        {
-
-        }else
-        if (base.second > end.second && base.first > end.first && base.first < start.first) //2
-        {
-
-        }else
-        if (base.second > start.second && base.second <= end.second && base.first >= start.first) //3
-        {
-
-        }else
-        if (base.second < end.second && base.first > end.first && base.first < start.first) //4
-        {
-
-        }else if (base.first<=end.first && base.second>=end.second) //5
-        {
-            position.first=0;
-            position.second=0;
-            return position;
-        }else if (base.first>=start.first && base.second>=end.second)//6
-        {
-            position.first=0;
-            position.second=countSquareLMain-1;
-            return position;
-        }else if (base.first>=start.first && base.second<=start.second) //7
-        {
-            position.first=countSquareWMain-1;
-            position.second=countSquareLMain-1;
-            return position;
-        }else if (base.first<=end.first && base.second<=end.second)//8
-        {
-            position.first=countSquareWMain-1;
-            position.second=0;
-            return position;
-        }
+            if(base.second > start.second && base.second < start.second && base.first < end.first)//1
+            {
+                for(int i=0;i<countSquareWMain;++i)
+                {
+                   diffX=abs(base.first-a[i][0].second.second);
+                   diffY=abs(base.second-a[i][0].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.first=i;
+                   }
+                }
+                position.second=0;
+                return position;
+            }else
+            if (base.second > end.second && base.first > end.first && base.first < start.first) //2
+            {
+                for(int i=0;i<countSquareLMain;++i)
+                {
+                   diffX=abs(base.first-a[0][i].second.second);
+                   diffY=abs(base.second-a[0][i].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.second=i;
+                   }
+                }
+                position.first=0;
+                return position;
+            }else
+            if (base.second > start.second && base.second <= end.second && base.first >= start.first) //3
+            {
+                for(int i=0;i<countSquareWMain;++i)
+                {
+                   diffX=abs(base.first-a[i][countSquareLMain-1].second.second);
+                   diffY=abs(base.second-a[i][countSquareLMain-1].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.first=i;
+                   }
+                }
+                position.second=countSquareLMain-1;
+                return position;
+            }else
+            if (base.second < end.second && base.first > end.first && base.first < start.first) //4
+            {
+                for(int i=0;i<countSquareLMain;++i)
+                {
+                   diffX=abs(base.first-a[countSquareWMain-1][i].second.second);
+                   diffY=abs(base.second-a[countSquareWMain-1][i].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.second=i;
+                   }
+                }
+                position.first=countSquareWMain-1;
+                return position;
+            }else if (base.first<=end.first && base.second>=end.second) //5
+            {
+                position.first=0;
+                position.second=0;
+                diffX=abs(base.first-a[position.first][position.second].second.second);
+                diffY=abs(base.second-a[position.first][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
+            }else if (base.first>=start.first && base.second>=end.second)//6
+            {
+                position.first=0;
+                position.second=countSquareLMain-1;
+                diffX=abs(base.first-a[position.second][position.first].second.second);
+                diffY=abs(base.second-a[position.second][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
+            }else if (base.first>=start.first && base.second<=start.second) //7
+            {
+                position.first=countSquareWMain-1;
+                position.second=countSquareLMain-1;
+                diffX=abs(base.first-a[position.second][position.first].second.second);
+                diffY=abs(base.second-a[position.second][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
+            }else if (base.first<=end.first && base.second<=end.second)//8
+            {
+                position.first=countSquareWMain-1;
+                position.second=0;
+                diffX=abs(base.first-a[position.second][position.first].second.second);
+                diffY=abs(base.second-a[position.second][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
+            }
         break;
         case 4:
-        if(base.first<start.first && base.second>start.second && base.second<end.second)//1
-        {
+            if(base.first<start.first && base.second>start.second && base.second<end.second)//1
+            {
+                for(int i=0;i<countSquareWMain;++i)
+                {
+                   diffX=abs(base.first-a[i][0].second.second);
+                   diffY=abs(base.second-a[i][0].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.first=i;
+                   }
+                }
+                position.second=0;
 
-        }else
-        if (base.second>end.second && base.first>start.first && base.first<end.first) //2
-        {
+            }else
+            if (base.second>end.second && base.first>start.first && base.first<end.first) //2
+            {
+                for(int i=0;i<countSquareLMain;++i)
+                {
+                   diffX=abs(base.first-a[0][i].second.second);
+                   diffY=abs(base.second-a[0][i].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.second=i;
+                   }
+                }
+                position.first=0;
+            }else
+            if (base.first>start.first && base.second>start.second && base.second<end.second) //3
+            {
+                for(int i=0;i<countSquareWMain;++i)
+                {
+                   diffX=abs(base.first-a[i][countSquareLMain-1].second.second);
+                   diffY=abs(base.second-a[i][countSquareLMain-1].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.first=i;
+                   }
+                }
+                position.second=countSquareLMain-1;
+            }else
+            if (base.second<end.second && base.first>start.first && base.first<end.first) //4
+            {
+                for(int i=0;i<countSquareLMain;++i)
+                {
+                   diffX=abs(base.first-a[countSquareWMain-1][i].second.second);
+                   diffY=abs(base.second-a[countSquareWMain-1][i].second.first);
+                   latitudeS=diffY*111.32*1000;
+                   longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                   distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                   if (distanceStart<min)
+                   {
+                       min = distanceStart;
+                       position.second=i;
+                   }
+                }
+                position.first=countSquareWMain-1;
 
-        }else
-        if (base.first>start.first && base.second>start.second && base.second<end.second) //3
-        {
-
-        }else
-        if (base.second<end.second && base.first>start.first && base.first<end.first) //4
-        {
-
-        }else if (base.first<=start.first && base.second>=end.second) //5
-        {
-            position.first=0;
-            position.second=0;
-            return position;
-        }else if (base.first>=end.first && base.second>=end.second)//6
-        {
-            position.first=0;
-            position.second=countSquareLMain-1;
-            return position;
-        }else if (base.first>=end.first && base.second<=start.second) //7
-        {
-            position.first=countSquareWMain-1;
-            position.second=countSquareLMain-1;
-            return position;
-        }else if (base.first<=start.first && base.second<=start.second)//8
-        {
-            position.first=countSquareWMain-1;
-            position.second=0;
-            return position;
-        }
+            }else if (base.first<=start.first && base.second>=end.second) //5
+            {
+                position.first=0;
+                position.second=0;
+                diffX=abs(base.first-a[position.first][position.second].second.second);
+                diffY=abs(base.second-a[position.first][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
+            }else if (base.first>=end.first && base.second>=end.second)//6
+            {
+                position.first=0;
+                position.second=countSquareLMain-1;
+                diffX=abs(base.first-a[position.second][position.first].second.second);
+                diffY=abs(base.second-a[position.second][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
+            }else if (base.first>=end.first && base.second<=start.second) //7
+            {
+                position.first=countSquareWMain-1;
+                position.second=countSquareLMain-1;
+                diffX=abs(base.first-a[position.second][position.first].second.second);
+                diffY=abs(base.second-a[position.second][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
+            }else if (base.first<=start.first && base.second<=start.second)//8
+            {
+                position.first=countSquareWMain-1;
+                position.second=0;
+                diffX=abs(base.first-a[position.second][position.first].second.second);
+                diffY=abs(base.second-a[position.second][position.second].second.first);
+                latitudeS=diffY*111.32*1000;
+                longtitudeS=cos(diffY*3.14/180)*40075/360*1000*diffX;
+                distanceStart=sqrt(pow(latitudeS,2)+pow(longtitudeS,2)+pow(height,2));
+                return position;
+            }
         break;
         }
 }

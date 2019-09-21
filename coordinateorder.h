@@ -19,6 +19,7 @@ private:
     pair<int,int> coordinatsWay;
     double lengthToBase=0;
     int wayLenght=0;
+
     double length=0,width=0;
     int fg=0;
 };
