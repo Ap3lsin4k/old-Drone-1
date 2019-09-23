@@ -25,6 +25,9 @@ MainWindow::~MainWindow()
 void MainWindow::handleDate()
 {
     height=ui->Height->text().toDouble();
+    horizontalAngel=ui->GeometrySensorH->text().toDouble();
+    verticalAngel=ui->GeometrySensor->text().toDouble();
+    focusDistance=ui->FocusDistance->text().toDouble();
 
     pointEnd.first=ui->pointXEnd->text().toDouble();//Довгота
     pointEnd.second=ui->pointYEnd_2->text().toDouble();//Широта
@@ -35,8 +38,12 @@ void MainWindow::handleDate()
     pointBase.first=ui->pointXBase->text().toDouble();
     pointBase.second=ui->pointYBase->text().toDouble();
 
-    length=ui->Length->text().toDouble();
-    width=ui->Width->text().toDouble();
+    double aH=2*(atan(horizontalAngel/(2*focusDistance))*180/3.141592);
+    double aV=2*(atan(verticalAngel/(2*focusDistance))*180/ 3.141592);
+
+    length=2*tan(0.5*aH*3.141592/180)*height;
+    width= 2*tan(0.5*aV*3.141592/180)*height;
+
     if(pointStart.first<pointEnd.first && pointStart.second>pointEnd.second)
     {
         positionPoints=1;//Стартова позиція в лівому верхньому куті
@@ -91,14 +98,28 @@ void MainWindow::handleDate()
     }
 
     qDebug()<<latitude/width<<" "<<longtitude/length;
-
-    double pointX1=pointStart.first+((length/2)/(cos(differentY*3.14/180)*(40075/360)*1000));  // Координата центра першого прямокутника
-    double pointY1=pointStart.second-abs((width/2)/(111.32*1000));
-
+    double pointX1;  // Координата центра першого прямокутника
+    double pointY1;
+    if(positionPoints==1 || positionPoints==2)
+    {
+        pointY1=pointStart.second-abs((width/2)/(111.32*1000));
+    }else
+    {
+       pointY1=pointStart.second+abs((width/2)/(111.32*1000));
+    }
+    if(positionPoints==1 || positionPoints==4)
+    {
+          pointX1=pointStart.first+((length/2)/(cos(differentY*3.14/180)*(40075/360)*1000));
+    }else
+    {
+          pointX1=pointStart.first-((length/2)/(cos(differentY*3.14/180)*(40075/360)*1000));
+    }
     pair<int,pair<double,double>> *defpair=new pair<int,pair<double,double>>();
     defpair->first=0;
     vector<pair<int,pair<double, double>>> def(countSquareLMain,*defpair) ;  // {ми там були, (Latitude1, Longtitude1)}, {чи ми там були, (Latitude2, Longtitude2)}
     vector<vector<pair<int, pair<double, double>>>> a(countSquareWMain,def);
+
+
     a[0][0].second.first=pointY1;
     a[0][0].second.second=pointX1;
     qDebug()<<"countW double: "<<countSquareWDouble<<"countL"<<countSquareLDouble;

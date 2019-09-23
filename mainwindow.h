@@ -26,6 +26,7 @@ private:
     double vutr=0; //Витрати на політ
     double vusot=0; //Висота польоту
     double vutrnafoto=0;//витрати на політ
+    double focusDistance,horizontalAngel, verticalAngel;
     int countSquareWMain, countSquareLMain;
     int positionPoints;//в Ростіка на телефоні або ТЮІ 2019
     double length=0,width=0;
