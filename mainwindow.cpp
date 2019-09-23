@@ -109,15 +109,27 @@ void MainWindow::handleDate()
     {
         if(i!=0)
         {
-          a[i][0].second.first=a[i-1][0].second.first-abs((width)/(111.32*1000));;
+          if(positionPoints==1 || positionPoints==2)
+          {
+
+               a[i][0].second.first=a[i-1][0].second.first-abs((width)/(111.32*1000));//down
+          }else
+          {
+                a[i][0].second.first=a[i-1][0].second.first+abs((width)/(111.32*1000));;
+          }
         }
         a[i][0].second.second=pointX1;
         for (unsigned int j=0;j<countSquareLMain;++j)
         {
             if(j!=0)
             {
-                a[i][j].second.second=a[i][j-1].second.second+(length)/(cos(differentY*3.14/180)*(40075/360)*1000);
-
+                if(positionPoints==1 || positionPoints==4)
+                {
+                     a[i][j].second.second=a[i][j-1].second.second+(length)/(cos(differentY*3.14/180)*(40075/360)*1000);
+                }else
+                {
+                     a[i][j].second.second=a[i][j-1].second.second-(length)/(cos(differentY*3.14/180)*(40075/360)*1000);
+                }
             }
             a[i][j].second.first=a[i][0].second.first;
             qDebug()<<QString::number(a[i][j].second.first,'f',6)+", "+QString::number(a[i][j].second.second,'f',6);
@@ -149,8 +161,8 @@ void MainWindow::handleDate()
     qDebug()<<countSquare;
     vutr = ui->vutr->text().toDouble();
     vutrnafoto= ui->vutrnafoto->text().toDouble();
-    double pal=d*vutr + vutrnafoto*countSquare;
-    qDebug()<<QString::number(pal,'f',6);
+    double pal=d*vutr + vutrnafoto*countSquare;qDebug()<<QString::number(pal,'f',6);
+
 
 
 }
