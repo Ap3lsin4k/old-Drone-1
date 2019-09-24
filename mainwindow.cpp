@@ -21,14 +21,44 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+#define pi 3.14159265359
 
-void MainWindow::handleDate()
+double toRad(double degree)
+{
+  return degree*pi/180;
+
+}
+
+// length in meters of a degree in latitude, longtitude
+pair<double, double> getLengthDegree(double latDegree)
+{
+  double lat =  toRad(latDegree); //latitude in radians
+  pair<double, double> lengthDegree;
+  /*
+  a degree of latitude =
+  110574m (equator)
+  111694m (pole)
+  */
+  lengthDegree.first = 111132.92 - 559.82*cos(2*lat) + 1.175*cos(4*lat) - 0.0023*cos(6*lat);
+  /*
+  a degree of longtitude =
+  111319m (equator)
+  0m (pole)
+  */
+  lengthDegree.second = 111412.84*cos(lat) - 93.5*cos(3*lat) + 0.118 * cos(5*lat);
+  return lengthDegree;
+}
+
+
+
+void MainWindow::handleDate()// todo rename
 {
     height=ui->Height->text().toDouble();
     horizontalAngel=ui->GeometrySensorH->text().toDouble();
     verticalAngel=ui->GeometrySensor->text().toDouble();
     focusDistance=ui->FocusDistance->text().toDouble();
 
+// set degree of latitude, longtitude in degrees to pair
     pointEnd.first=ui->pointXEnd->text().toDouble();//Довгота
     pointEnd.second=ui->pointYEnd_2->text().toDouble();//Широта
 
@@ -38,38 +68,41 @@ void MainWindow::handleDate()
     pointBase.first=ui->pointXBase->text().toDouble();
     pointBase.second=ui->pointYBase->text().toDouble();
 
-    double aH=2*(atan(horizontalAngel/(2*focusDistance))*180/3.141592);
-    double aV=2*(atan(verticalAngel/(2*focusDistance))*180/ 3.141592);
+    // angle of view
+    double aH=2*(atan(horizontalAngel/(2*focusDistance))*180/pi);
+    double aV=2*(atan(verticalAngel/(2*focusDistance))*180/ pi);
 
-    length=2*tan(0.5*aH*3.141592/180)*height;
-    width= 2*tan(0.5*aV*3.141592/180)*height;
+    length=2*tan(0.5*aH*pi/180)*height;
+    width= 2*tan(0.5*aV*pi/180)*height;
 
     if(pointStart.first<pointEnd.first && pointStart.second>pointEnd.second)
     {
         positionPoints=1;//Стартова позиція в лівому верхньому куті
-        differentX=pointEnd.first-pointStart.first;//Довгота в градусах
-        differentY=pointStart.second-pointEnd.second;//Широта в градусах
+        lengthDegreeX=pointEnd.first-pointStart.first;//Довгота в градусах
+        lengthDegreeY=pointStart.second-pointEnd.second;//Широта в градусах
     }else if (pointStart.first>pointEnd.first && pointStart.second>pointEnd.second)
     {
         positionPoints=2;//Стартова точка знаходится в правому верхньому куті
-        differentX=pointStart.first-pointEnd.first;//Довгота в градусах
-        differentY=pointStart.second-pointEnd.second;//Широта в градусах
+        lengthDegreeX=pointStart.first-pointEnd.first;//Довгота в градусах
+        lengthDegreeY=pointStart.second-pointEnd.second;//Широта в градусах
     }else if (pointStart.first>pointEnd.first && pointStart.second<pointEnd.second)
     {
         positionPoints=3;//Стартова точка знаходится в правому нижньому куті
-        differentX=pointStart.first-pointEnd.first;//Довгота в градусах
-        differentY=pointEnd.second-pointStart.second;//Широта в градусах
+        lengthDegreeX=pointStart.first-pointEnd.first;//Довгота в градусах
+        lengthDegreeY=pointEnd.second-pointStart.second;//Широта в градусах
 
     }else if (pointStart.first<pointEnd.first && pointStart.second<pointEnd.second)
     {
         positionPoints=4;//Стартова точка знаходится в лівому нижньому куті
-        differentX=pointEnd.first-pointStart.first;//Довгота в градусах
-        differentY=pointEnd.second-pointStart.second;//Широта в градусах
+        lengthDegreeX=pointEnd.first-pointStart.first;//Довгота в градусах
+        lengthDegreeY=pointEnd.second-pointStart.second;//Широта в градусах
     }
 
     qDebug()<<"PositionPoints: "<<positionPoints;
-    latitude=differentY*111.32*1000;//Широта в метрах
-    longtitude=cos(differentY*3.14/180)*40075/360*1000*differentX;//Довгота в метрах
+    //degree to meters
+    pair<double, double> metersDegree = getLengthDegree(pointBase.second);  // length depend on latitude
+    latitude=lengthDegreeY*metersDegree.first;//Широта в метрах
+    longtitude=lengthDegreeX*metersDegree.second;//Довгота в метрах
 
     qDebug()<<"Latitude v metrax, longtitude: "<<latitude<<" "<<longtitude;
 
@@ -109,10 +142,10 @@ void MainWindow::handleDate()
     }
     if(positionPoints==1 || positionPoints==4)
     {
-          pointX1=pointStart.first+((length/2)/(cos(differentY*3.14/180)*(40075/360)*1000));
+          pointX1=pointStart.first+((length/2)/(cos(lengthDegreeY*3.14/180)*(40075/360)*1000));
     }else
     {
-          pointX1=pointStart.first-((length/2)/(cos(differentY*3.14/180)*(40075/360)*1000));
+          pointX1=pointStart.first-((length/2)/(cos(lengthDegreeY*3.14/180)*(40075/360)*1000));
     }
     pair<int,pair<double,double>> *defpair=new pair<int,pair<double,double>>();
     defpair->first=0;
@@ -146,10 +179,10 @@ void MainWindow::handleDate()
             {
                 if(positionPoints==1 || positionPoints==4)
                 {
-                     a[i][j].second.second=a[i][j-1].second.second+(length)/(cos(differentY*3.14/180)*(40075/360)*1000);
+                     a[i][j].second.second=a[i][j-1].second.second+(length)/(cos(lengthDegreeY*3.14/180)*(40075/360)*1000);
                 }else
                 {
-                     a[i][j].second.second=a[i][j-1].second.second-(length)/(cos(differentY*3.14/180)*(40075/360)*1000);
+                     a[i][j].second.second=a[i][j-1].second.second-(length)/(cos(lengthDegreeY*3.14/180)*(40075/360)*1000);
                 }
             }
             a[i][j].second.first=a[i][0].second.first;
