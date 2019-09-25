@@ -13,7 +13,7 @@ void CoordinateOrder::coordinateOrder(vector<vector<pair<int,pair<double, double
     coordinatsWay.first=w;
     coordinatsWay.second=l;
     way.push_back(coordinatsWay);
-    if(l+1<L)
+    if(l+1<L)//Right
     {
         if (a[w][l+1].first == 0)//we have not been there
         {

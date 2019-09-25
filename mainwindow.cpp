@@ -75,6 +75,8 @@ void MainWindow::handleDate()// todo rename
     length=2*tan(0.5*aH*pi/180)*height;
     width= 2*tan(0.5*aV*pi/180)*height;
 
+    qDebug()<<"length width meters"<<length<<" "<<width;
+
     if(pointStart.first<pointEnd.first && pointStart.second>pointEnd.second)
     {
         positionPoints=1;//Стартова позиція в лівому верхньому куті
@@ -100,7 +102,7 @@ void MainWindow::handleDate()// todo rename
 
     qDebug()<<"PositionPoints: "<<positionPoints;
     //degree to meters
-    pair<double, double> metersDegree = getLengthDegree(pointBase.second);  // length depend on latitude
+    pair<double, double> metersDegree = getLengthDegree(pointStart.second);  // length depend on latitude
     latitude=lengthDegreeY*metersDegree.first;//Широта в метрах
     longtitude=lengthDegreeX*metersDegree.second;//Довгота в метрах
 
@@ -186,10 +188,9 @@ void MainWindow::handleDate()// todo rename
                 }
             }
             a[i][j].second.first=a[i][0].second.first;
-            qDebug()<<QString::number(a[i][j].second.first,'f',6)+", "+QString::number(a[i][j].second.second,'f',6);
+            //qDebug()<<QString::number(a[i][j].second.first,'f',6)+", "+QString::number(a[i][j].second.second,'f',6);
         }
     }
-
 
 
     int countSquare=countSquareLMain*countSquareWMain;
@@ -201,6 +202,12 @@ void MainWindow::handleDate()// todo rename
     vector<pair<int,int>> way=order->getWay();
     double differentXEnd=a[way[countSquare-1].first][way[countSquare-1].second].second.second-pointBase.first;
     double differentYEnd=a[way[countSquare-1].first][way[countSquare-1].second].second.first-pointBase.second;
+    qDebug()<<"Way points:";
+    for(int i=0;i<countSquare;++i)
+    {
+        qDebug()<<QString::number(a[way[i].first][way[i].second].second.first,'f',6)<<QString::number(a[way[i].first][way[i].second].second.second,'f',6);
+    }
+
 
     double latitudeEnd=differentYEnd*111.32*1000;//Широта в метрах
     double longtitudeEnd=cos(differentYEnd*3.14/180)*40075/360*1000*differentXEnd;
@@ -208,8 +215,6 @@ void MainWindow::handleDate()// todo rename
 
     qDebug()<<order->getLength()<<" "<<distanceEnd<<" "<<distanceStart;
     double d=order->getLength()+distanceEnd+distanceStart;
-
-
 
     qDebug()<<QString::number(d,'f',6);
     qDebug()<<countSquare;
