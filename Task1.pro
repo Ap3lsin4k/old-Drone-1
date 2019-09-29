@@ -25,10 +25,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        coordinateorder.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
+        coordinateorder.h \
         mainwindow.h
 
 FORMS += \
@@ -38,3 +40,5 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=

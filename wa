@@ -1,0 +1,35 @@
+[33mcommit bbeeb7aba6876f3a1fd34655708e3ea5eeb7b1f9[m[33m ([m[1;36mHEAD -> [m[1;32mdebug[m[33m)[m
+Author: Galuzzhka <gizzman@gmail.com>
+Date:   Sat Sep 14 11:47:56 2019 +0300
+
+    Add displays all points
+
+[33mcommit ad4bb3353c7fa5fbc075c8db9064c9e4b785fbed[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/debug[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Author: Gal <liceum@gmail.com>
+Date:   Fri Sep 13 13:15:27 2019 +0300
+
+    Count squares works. Abs
+
+[33mcommit 26d9bd07418f42a5f8fb16707434aa8f9dd59083[m
+Author: Gal <liceum@gmail.com>
+Date:   Thu Sep 12 12:12:48 2019 +0300
+
+    Ceil does not work using trunc
+
+[33mcommit 284a3755b45b691995404eb8a73aca37f6a55f59[m
+Author: Gal <liceum@gmail.com>
+Date:   Wed Sep 11 10:12:43 2019 +0300
+
+    Problem with cont squares
+
+[33mcommit 3135ddc256880ba2b810fcefe98a468ef711d357[m
+Author: Andrii Fedorko <andriy.fedorko01@gmail.com>
+Date:   Tue Sep 10 17:51:19 2019 +0300
+
+    Liceum. Calculate width and heigh knowing coordinates of the area
+
+[33mcommit 819ac8767bb487d2ed6a45d90c94352c4459406a[m
+Author: Galuzzhka <gizzman@gmail.com>
+Date:   Mon Sep 9 21:59:02 2019 +0300
+
+    Add ui

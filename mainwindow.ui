@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>705</width>
-    <height>436</height>
+    <width>1206</width>
+    <height>558</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>30</x>
       <y>10</y>
-      <width>404</width>
-      <height>352</height>
+      <width>443</width>
+      <height>470</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -32,7 +32,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit_3"/>
+      <widget class="QLineEdit" name="Height"/>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
@@ -42,7 +42,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEdit_4"/>
+      <widget class="QLineEdit" name="FocusDistance"/>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_4">
@@ -51,57 +51,115 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="lineEdit_5"/>
-     </item>
      <item row="3" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>V</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="GeometrySensor"/>
+       </item>
+      </layout>
+     </item>
+     <item row="3" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>H</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="GeometrySensorH"/>
+       </item>
+      </layout>
+     </item>
+     <item row="4" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Заряд батареї</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="lineEdit_7"/>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="BatteryCharge"/>
      </item>
-     <item row="4" column="0">
+     <item row="5" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
         <string>Витрати на фото</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QLineEdit" name="lineEdit_6"/>
+     <item row="5" column="1">
+      <widget class="QLineEdit" name="vutrnafoto"/>
      </item>
-     <item row="5" column="0">
+     <item row="6" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
         <string>Витрати на політ</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
-      <widget class="QLineEdit" name="lineEdit_2"/>
+     <item row="6" column="1">
+      <widget class="QLineEdit" name="vutr"/>
      </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="label_7">
+     <item row="7" column="0">
+      <widget class="QLabel" name="label_20">
        <property name="text">
-        <string>Площа</string>
+        <string>Координати бази</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
-      <widget class="QLineEdit" name="lineEdit"/>
-     </item>
      <item row="8" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_12">
+       <item>
+        <widget class="QLabel" name="label_22">
+         <property name="text">
+          <string>Широта</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="pointYBase">
+         <property name="text">
+          <string>50.184402</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="8" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <item>
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>Довгота</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="pointXBase">
+         <property name="text">
+          <string>27.058021</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="9" column="0">
       <widget class="QLabel" name="label_10">
        <property name="text">
         <string>Початкові координати поля</string>
        </property>
       </widget>
      </item>
-     <item row="9" column="0">
+     <item row="10" column="0">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <widget class="QLabel" name="label_9">
@@ -111,11 +169,15 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="pointYStart"/>
+        <widget class="QLineEdit" name="pointYStart">
+         <property name="text">
+          <string>50.184170</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
-     <item row="9" column="1">
+     <item row="10" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QLabel" name="label_8">
@@ -125,18 +187,22 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="pointXStart"/>
+        <widget class="QLineEdit" name="pointXStart">
+         <property name="text">
+          <string> 27.058116 </string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
-     <item row="10" column="0">
+     <item row="11" column="0">
       <widget class="QLabel" name="label_15">
        <property name="text">
         <string>Кінцеві координати поля</string>
        </property>
       </widget>
      </item>
-     <item row="11" column="0">
+     <item row="12" column="0">
       <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>
         <widget class="QLabel" name="label_13">
@@ -146,11 +212,15 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="pointYEnd_2"/>
+        <widget class="QLineEdit" name="pointYEnd_2">
+         <property name="text">
+          <string>50.183105 </string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
-     <item row="11" column="1">
+     <item row="12" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_6">
        <item>
         <widget class="QLabel" name="label_14">
@@ -160,44 +230,20 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="pointXEnd"/>
+        <widget class="QLineEdit" name="pointXEnd">
+         <property name="text">
+          <string>27.058461</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
-     <item row="12" column="1">
+     <item row="13" column="1">
       <widget class="QPushButton" name="pushButton">
        <property name="text">
         <string>Обчислити та вивести результат</string>
        </property>
       </widget>
-     </item>
-     <item row="7" column="0">
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <item>
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>Довжина</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="Length"/>
-       </item>
-      </layout>
-     </item>
-     <item row="7" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_8">
-       <item>
-        <widget class="QLabel" name="label_12">
-         <property name="text">
-          <string>Ширина</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="Width"/>
-       </item>
-      </layout>
      </item>
     </layout>
    </widget>
@@ -207,8 +253,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>705</width>
-     <height>21</height>
+     <width>1206</width>
+     <height>20</height>
     </rect>
    </property>
   </widget>
